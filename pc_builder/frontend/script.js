@@ -1,4 +1,4 @@
-const API_URL = "";
+const API_URL = "https://pc-builder-jbhh.onrender.com";
 let currentLang = "ar";
 let lastBuilds = [];
 let currentCurrency = "OMR";

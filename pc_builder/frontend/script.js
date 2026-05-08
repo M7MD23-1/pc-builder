@@ -127,8 +127,9 @@ async function buildPC() {
         });
 
         const data = await response.json();
+        console.log(data);
 
-        if (data.success) {
+if (data.success) {
             showResults(data.builds || []);
         } else {
             if (data.min_budget !== undefined && data.min_budget !== null) {

@@ -325,7 +325,7 @@ def estimate_min_budget(components, purpose):
     return round(state["total_price"], 2)
 
 
-def bfs(components, budget, purpose, max_states=1200000):
+def bfs(components, budget, purpose, max_states=20000):
     purpose = normalize_purpose_name(purpose)
     components = prepare_components(components)
     components = sort_components(components, purpose)
@@ -373,7 +373,7 @@ def bfs(components, budget, purpose, max_states=1200000):
     return []
 
 
-def dfs(components, budget, purpose, max_states=150000):
+def dfs(components, budget, purpose, max_states=20000):
     purpose = normalize_purpose_name(purpose)
     components = prepare_components(components)
     components = sort_components(components, purpose)
@@ -423,7 +423,7 @@ def dfs(components, budget, purpose, max_states=150000):
     return []
 
 
-def ucs(components, budget, purpose, max_states=150000):
+def ucs(components, budget, purpose, max_states=20000):
     purpose = normalize_purpose_name(purpose)
     components = prepare_components(components)
     components = sort_components(components, purpose)
@@ -473,7 +473,7 @@ def ucs(components, budget, purpose, max_states=150000):
     return _finalize_build_results(results, explored, "UCS")
 
 
-def astar(components, budget, purpose, max_states=150000):
+def astar(components, budget, purpose, max_states=20000):
     purpose = normalize_purpose_name(purpose)
     components = prepare_components(components)
     components = sort_components(components, purpose)

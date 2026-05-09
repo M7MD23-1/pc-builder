@@ -13,6 +13,10 @@ CORS(app)
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_PATH = os.path.join(BASE_DIR, "data", "PC_Components_Dataset_small__2_.xlsx")
+
+# Load dataset once at startup
+GLOBAL_COMPONENTS = load_components(DATA_PATH)
+
 MIN_BUDGET_BY_PURPOSE = {
     "Gaming": 920,
     "Office": 300,
@@ -21,7 +25,6 @@ MIN_BUDGET_BY_PURPOSE = {
     "Budget Build": 390,
     "High-End Build": 1060,
 }
-
 
 def normalize_purpose_name(purpose):
     text = str(purpose or "").strip()
@@ -37,6 +40,7 @@ def format_build(result):
         "algorithm": result.get("algorithm"),
         "explored_states": result.get("explored_states"),
         "total_price": result.get("total_price"),
+        "compatible": True,
         "components": {
             "cpu": {
                 "name": result["cpu"]["name"],
@@ -107,7 +111,7 @@ def build():
         if purpose not in valid_purposes:
             return jsonify({"success": False, "error": f"غرض غير معروف: {purpose}"}), 400
 
-        components = load_components(DATA_PATH)
+        components = GLOBAL_COMPONENTS
 
         if algorithm == "BFS":
             result = bfs(components, budget, purpose)
@@ -133,12 +137,12 @@ def build():
         })
 
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": f"Server error: {str(e)}"}), 200
 
 
 @app.route("/components", methods=["GET"])
 def get_components():
-    components = load_components(DATA_PATH)
+    components = GLOBAL_COMPONENTS
     return jsonify({
         "cpu": len(components["cpu"]),
         "mb": len(components["mb"]),
